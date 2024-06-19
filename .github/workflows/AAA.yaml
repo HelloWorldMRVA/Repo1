@@ -1,0 +1,41 @@
+name: Run Agent as Action
+run-name: Running on ${{ github.repository }}
+on:
+  workflow_dispatch:
+    inputs:
+      db-filename:
+        description: "Name of the database .zip archive"
+        type: string
+        required: true
+      qlpack-filename:
+        description: "Name of the qlpack .tar.gz archive"
+        type: string
+        required: true
+      db-release-tags:
+        description: "Release tag of the database .zip archive"
+        type: string
+        required: true
+      qlpack-release-tags:
+        description: "Release tag of the qlpack .tar.gz archive"
+        type: string
+        required: true
+jobs:
+  run-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Fetch database from release
+        uses: dsaltares/fetch-gh-release-asset@1.1.2
+        with:
+          repo: ${{ github.repository }}
+          version: ${{ inputs.db-release-tags }}
+          file: "google_flatbuffers_db.zip"
+          target: ${{ format( 'dbs/{0}', inputs.db-filename ) }}
+      - name: Fetch qlpack from release
+        uses: dsaltares/fetch-gh-release-asset@1.1.2
+        with:
+          repo: ${{ github.repository }}
+          version: ${{ inputs.qlpack-release-tags }}
+          file: ${{ inputs.qlpack-filename }}
+          target: "qlpacks/qp-54674.tgz"
