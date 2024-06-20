@@ -22,9 +22,6 @@ interface Repo {
   pat?: string;
 }
 async function run(): Promise<void> {
-  const controllerRepoId = parseInt(
-    getInput("controller_repo_id", { required: true })
-  );
   const dbUrl = getInput("db_url");
   const queryPackUrl = getInput("query_pack_url", { required: true });
   const language = getInput("language", { required: true });
@@ -32,10 +29,6 @@ async function run(): Promise<void> {
     id: 1,
     nwo: path.join(context.repo.owner, context.repo.repo),
   };
-  const variantAnalysisId = parseInt(
-    getInput("variant_analysis_id", { required: true })
-  );
-  // const instructions = await getInstructions(); // NOTE not needed
 
   if (repo.downloadUrl) {
     setSecret(repo.downloadUrl);
@@ -46,8 +39,7 @@ async function run(): Promise<void> {
 
   let codeqlBundlePath: string | undefined;
 
-  const cliVersion = "2.17.5"; // NOTE hardcoded. (Is this syntax correct?)
-  /* NOTE Removed conditional and just setup CodeQL bundle unconditionally */
+  const cliVersion = "2.17.5";
   codeqlBundlePath = await setupCodeQLBundle(
     process.env.RUNNER_TEMP ?? tmpdir(),
     cliVersion
@@ -62,7 +54,6 @@ async function run(): Promise<void> {
 
   let queryPackPath: string;
   try {
-    /* Download and extract the query pack. */
     console.log("Getting query pack");
     const queryPackArchive = await download(queryPackUrl, "query_pack.tar.gz");
     queryPackPath = await extractTar(queryPackArchive);
@@ -76,13 +67,6 @@ async function run(): Promise<void> {
     } else {
       setFailed(errorMessage);
     }
-    // Consider all repos to have failed
-    // await setVariantAnalysisFailed(
-    //   controllerRepoId,
-    //   variantAnalysisId,
-    //   repo.id,
-    //   errorMessage
-    // );
     return;
   }
 
@@ -97,18 +81,10 @@ async function run(): Promise<void> {
 
   const queryPackInfo = await getQueryPackInfo(codeqlCli, queryPackPath);
 
-  // Create a new directory to contain all files created during analysis of this repo.
   const workDir = createTempRepoDir(curDir, repo);
-  // Change into the new directory to further ensure that all created files go in there.
   chdir(workDir);
 
   try {
-    // await setVariantAnalysisRepoInProgress(
-    //   controllerRepoId,
-    //   variantAnalysisId,
-    //   repo.id
-    // );
-
     const dbZip = await download(dbUrl, language + ".zip");
     const dbZipPath = path.resolve(dbZip);
 
@@ -137,6 +113,7 @@ async function run(): Promise<void> {
       repo.nwo,
       queryPackInfo
     );
+    /* ====================================== */
 
     if (runQueryResult.resultCount > 0) {
       const bufferToWrite = await getArtifactContentsForUpload(runQueryResult);
@@ -147,15 +124,6 @@ async function run(): Promise<void> {
       });
       setOutput("results-path", pathToSave);
     }
-
-    // await setVariantAnalysisRepoSucceeded(
-    //   controllerRepoId,
-    //   variantAnalysisId,
-    //   repo.id,
-    //   runQueryResult.sourceLocationPrefix,
-    //   runQueryResult.resultCount,
-    //   runQueryResult.databaseSHA || "HEAD"
-    // );
   } catch (e: any) {
     console.error(e);
     const errorMessage = e instanceof Error ? e.message : `${e}`;
@@ -166,25 +134,9 @@ async function run(): Promise<void> {
     } else {
       setFailed(errorMessage);
     }
-
-    // await setVariantAnalysisFailed(
-    //   controllerRepoId,
-    //   variantAnalysisId,
-    //   repo.id,
-    //   errorMessage
-    // );
   }
-  // We can now delete the work dir. All required files have already been uploaded.
-  // chdir(curDir);
-  // fs.rmSync(workDir, { recursive: true });
 }
 
-/**
- * Creates a temporary directory for a given repository.
- * @param curDir The current directory.
- * @param repo The repository to create a temporary directory for.
- * @returns The path to the temporary directory.
- */
 function createTempRepoDir(curDir: string, repo: Repo): string {
   const workDir = fs.mkdtempSync(path.join(curDir, repo.id.toString()));
   return workDir;
