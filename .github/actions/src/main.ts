@@ -116,7 +116,7 @@ async function run(): Promise<void> {
 
     const dbZip = await download(dbUrl, language);
     const dbZipPath = path.resolve(dbZip);
-    console.log(dbZipPath);
+    console.log(`DB Zip Path: ${dbZipPath}`);
 
     console.log("Running query");
     /* ========== Run the analysis ========== */
