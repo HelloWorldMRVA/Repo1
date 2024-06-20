@@ -15,7 +15,6 @@ const codeql_1 = require("./codeql");
 const codeql_cli_1 = require("./codeql-cli");
 const codeql_setup_1 = require("./codeql-setup");
 const download_1 = require("./download");
-const gh_api_client_1 = require("./gh-api-client");
 const shutdownHandlers = [];
 async function run() {
     const controllerRepoId = parseInt((0, core_1.getInput)("controller_repo_id", { required: true }));
@@ -60,7 +59,12 @@ async function run() {
             (0, core_1.setFailed)(errorMessage);
         }
         // Consider all repos to have failed
-        await (0, gh_api_client_1.setVariantAnalysisFailed)(controllerRepoId, variantAnalysisId, repo.id, errorMessage);
+        // await setVariantAnalysisFailed(
+        //   controllerRepoId,
+        //   variantAnalysisId,
+        //   repo.id,
+        //   errorMessage
+        // );
         return;
     }
     const codeqlCli = new codeql_cli_1.CodeqlCliServer(codeqlCmd);
@@ -75,7 +79,11 @@ async function run() {
     // Change into the new directory to further ensure that all created files go in there.
     (0, process_1.chdir)(workDir);
     try {
-        await (0, gh_api_client_1.setVariantAnalysisRepoInProgress)(controllerRepoId, variantAnalysisId, repo.id);
+        // await setVariantAnalysisRepoInProgress(
+        //   controllerRepoId,
+        //   variantAnalysisId,
+        //   repo.id
+        // );
         const dbZip = await (0, download_1.download)(dbUrl, language);
         const dbZipPath = path_1.default.resolve(dbZip);
         console.log("Running query");
@@ -91,7 +99,14 @@ async function run() {
             });
             (0, core_1.setOutput)("results-path", runQueryResult);
         }
-        await (0, gh_api_client_1.setVariantAnalysisRepoSucceeded)(controllerRepoId, variantAnalysisId, repo.id, runQueryResult.sourceLocationPrefix, runQueryResult.resultCount, runQueryResult.databaseSHA || "HEAD");
+        // await setVariantAnalysisRepoSucceeded(
+        //   controllerRepoId,
+        //   variantAnalysisId,
+        //   repo.id,
+        //   runQueryResult.sourceLocationPrefix,
+        //   runQueryResult.resultCount,
+        //   runQueryResult.databaseSHA || "HEAD"
+        // );
     }
     catch (e) {
         console.error(e);
@@ -102,7 +117,12 @@ async function run() {
         else {
             (0, core_1.setFailed)(errorMessage);
         }
-        await (0, gh_api_client_1.setVariantAnalysisFailed)(controllerRepoId, variantAnalysisId, repo.id, errorMessage);
+        // await setVariantAnalysisFailed(
+        //   controllerRepoId,
+        //   variantAnalysisId,
+        //   repo.id,
+        //   errorMessage
+        // );
     }
     // We can now delete the work dir. All required files have already been uploaded.
     (0, process_1.chdir)(curDir);

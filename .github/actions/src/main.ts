@@ -82,12 +82,12 @@ async function run(): Promise<void> {
       setFailed(errorMessage);
     }
     // Consider all repos to have failed
-    await setVariantAnalysisFailed(
-      controllerRepoId,
-      variantAnalysisId,
-      repo.id,
-      errorMessage
-    );
+    // await setVariantAnalysisFailed(
+    //   controllerRepoId,
+    //   variantAnalysisId,
+    //   repo.id,
+    //   errorMessage
+    // );
     return;
   }
 
@@ -108,11 +108,11 @@ async function run(): Promise<void> {
   chdir(workDir);
 
   try {
-    await setVariantAnalysisRepoInProgress(
-      controllerRepoId,
-      variantAnalysisId,
-      repo.id
-    );
+    // await setVariantAnalysisRepoInProgress(
+    //   controllerRepoId,
+    //   variantAnalysisId,
+    //   repo.id
+    // );
 
     const dbZip = await download(dbUrl, language);
     const dbZipPath = path.resolve(dbZip);
@@ -136,14 +136,14 @@ async function run(): Promise<void> {
       setOutput("results-path", runQueryResult);
     }
 
-    await setVariantAnalysisRepoSucceeded(
-      controllerRepoId,
-      variantAnalysisId,
-      repo.id,
-      runQueryResult.sourceLocationPrefix,
-      runQueryResult.resultCount,
-      runQueryResult.databaseSHA || "HEAD"
-    );
+    // await setVariantAnalysisRepoSucceeded(
+    //   controllerRepoId,
+    //   variantAnalysisId,
+    //   repo.id,
+    //   runQueryResult.sourceLocationPrefix,
+    //   runQueryResult.resultCount,
+    //   runQueryResult.databaseSHA || "HEAD"
+    // );
   } catch (e: any) {
     console.error(e);
     const errorMessage = e instanceof Error ? e.message : `${e}`;
@@ -155,12 +155,12 @@ async function run(): Promise<void> {
       setFailed(errorMessage);
     }
 
-    await setVariantAnalysisFailed(
-      controllerRepoId,
-      variantAnalysisId,
-      repo.id,
-      errorMessage
-    );
+    // await setVariantAnalysisFailed(
+    //   controllerRepoId,
+    //   variantAnalysisId,
+    //   repo.id,
+    //   errorMessage
+    // );
   }
   // We can now delete the work dir. All required files have already been uploaded.
   chdir(curDir);
