@@ -86,7 +86,8 @@ async function run() {
         // );
         const dbZip = await (0, download_1.download)(dbUrl, language);
         const dbZipPath = path_1.default.resolve(dbZip);
-        console.log(`DB Zip Path: ${dbZipPath}`);
+        console.log(`DB Zip Path 1: ${dbZip}`);
+        console.log(`DB Zip Path 2: ${dbZipPath}`);
         console.log("Running query");
         /* ========== Run the analysis ========== */
         const runQueryResult = await (0, codeql_1.runQuery)(codeqlCli, dbZipPath, repo.nwo, queryPackInfo);
