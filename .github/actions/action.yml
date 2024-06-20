@@ -6,7 +6,7 @@ inputs:
     required: true
 
   db_url:
-    description: URL for a tarball containing CodeQL query plus dependencies.
+    description: URL for a database to be analyzed.
     required: true
 
   query_pack_url:
@@ -38,4 +38,4 @@ outputs:
 
 runs:
   using: node20
-  main: src/main.js
+  main: dist/main.js

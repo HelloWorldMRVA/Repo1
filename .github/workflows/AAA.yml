@@ -21,14 +21,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Run analysis
-        uses: ../actions/action.yml
+        uses: ./.github/actions
         id: analysis
         with:
           controller_repo_id: ${{ github.repository }}
-          db_url: ${{ input.db-url }}
-          query_pack_url: ${{ qlpack-url }}
+          db_url: ${{ inputs.db-url }}
+          query_pack_url: ${{ inputs.qlpack-url }}
           language: cpp
-          variant_analysis_id: ${{ input.timestamp }}
+          variant_analysis_id: ${{ inputs.timestamp }}
       - name: Upload artifact for download
         uses: actions/upload-artifact@v4
         with:
