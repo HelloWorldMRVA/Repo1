@@ -20,7 +20,7 @@ const shutdownHandlers = [];
 async function run() {
     const controllerRepoId = parseInt((0, core_1.getInput)("controller_repo_id", { required: true }));
     const dbUrl = (0, core_1.getInput)("db_url");
-    const queryPackUrl = (0, core_1.getInput)("qlpack_url", { required: true });
+    const queryPackUrl = (0, core_1.getInput)("query_pack_url", { required: true });
     const language = (0, core_1.getInput)("language", { required: true });
     const repo = {
         id: 1,
