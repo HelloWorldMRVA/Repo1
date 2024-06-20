@@ -84,7 +84,7 @@ async function run() {
         //   variantAnalysisId,
         //   repo.id
         // );
-        const dbZip = await (0, download_1.download)(dbUrl, language);
+        const dbZip = await (0, download_1.download)(dbUrl, language + ".zip");
         const dbZipPath = path_1.default.resolve(dbZip);
         console.log(`DB Zip Path 1: ${dbZip}`);
         console.log(`DB Zip Path 2: ${dbZipPath}`);

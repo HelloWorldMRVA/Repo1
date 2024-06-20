@@ -114,7 +114,7 @@ async function run(): Promise<void> {
     //   repo.id
     // );
 
-    const dbZip = await download(dbUrl, language);
+    const dbZip = await download(dbUrl, language + ".zip");
     const dbZipPath = path.resolve(dbZip);
 
     console.log(`DB Zip Path 1: ${dbZip}`);
