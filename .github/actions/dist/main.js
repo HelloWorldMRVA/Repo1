@@ -138,8 +138,8 @@ async function run() {
         // );
     }
     // We can now delete the work dir. All required files have already been uploaded.
-    (0, process_1.chdir)(curDir);
-    fs_1.default.rmSync(workDir, { recursive: true });
+    // chdir(curDir);
+    // fs.rmSync(workDir, { recursive: true });
 }
 /**
  * Creates a temporary directory for a given repository.
