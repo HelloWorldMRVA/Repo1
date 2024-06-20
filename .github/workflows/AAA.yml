@@ -25,10 +25,10 @@ jobs:
         id: analysis
         with:
           controller_repo_id: ${{ github.repository }}
-          db_url: ${{ input.db-url }}
+          db_url: ${{ inputs.db-url }}
           query_pack_url: ${{ qlpack-url }}
           language: cpp
-          variant_analysis_id: ${{ input.timestamp }}
+          variant_analysis_id: ${{ inputs.timestamp }}
       - name: Upload artifact for download
         uses: actions/upload-artifact@v4
         with:
