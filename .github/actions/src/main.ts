@@ -120,6 +120,20 @@ async function run(): Promise<void> {
     console.log(`DB Zip Path 1: ${dbZip}`);
     console.log(`DB Zip Path 2: ${dbZipPath}`);
 
+    const fs = require("node:fs");
+
+    fs.stat(dbZipPath, (err: Error, stats: any) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+
+      stats.isFile();
+      stats.isDirectory();
+      stats.isSymbolicLink();
+      stats.size;
+    });
+
     console.log("Running query");
     /* ========== Run the analysis ========== */
     const runQueryResult = await runQuery(
@@ -132,7 +146,7 @@ async function run(): Promise<void> {
     if (runQueryResult.resultCount > 0) {
       const bufferToWrite = await getArtifactContentsForUpload(runQueryResult);
       const pathToSave = path.join(cwd(), "results", "results.zip");
-      fs.writeFile(pathToSave, bufferToWrite, (err) => {
+      fs.writeFile(pathToSave, bufferToWrite, (err: Error) => {
         if (err) throw err;
         console.log(`Results saved as ${pathToSave}.`);
       });

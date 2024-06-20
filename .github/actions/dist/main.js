@@ -88,13 +88,24 @@ async function run() {
         const dbZipPath = path_1.default.resolve(dbZip);
         console.log(`DB Zip Path 1: ${dbZip}`);
         console.log(`DB Zip Path 2: ${dbZipPath}`);
+        const fs = require("node:fs");
+        fs.stat(dbZipPath, (err, stats) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            stats.isFile();
+            stats.isDirectory();
+            stats.isSymbolicLink();
+            stats.size;
+        });
         console.log("Running query");
         /* ========== Run the analysis ========== */
         const runQueryResult = await (0, codeql_1.runQuery)(codeqlCli, dbZipPath, repo.nwo, queryPackInfo);
         if (runQueryResult.resultCount > 0) {
             const bufferToWrite = await getArtifactContentsForUpload(runQueryResult);
             const pathToSave = path_1.default.join((0, process_1.cwd)(), "results", "results.zip");
-            fs_1.default.writeFile(pathToSave, bufferToWrite, (err) => {
+            fs.writeFile(pathToSave, bufferToWrite, (err) => {
                 if (err)
                     throw err;
                 console.log(`Results saved as ${pathToSave}.`);
