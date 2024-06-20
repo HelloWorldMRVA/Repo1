@@ -31,7 +31,7 @@ async function run(): Promise<void> {
     getInput("controller_repo_id", { required: true })
   );
   const dbUrl = getInput("db_url");
-  const queryPackUrl = getInput("qlpack_url", { required: true });
+  const queryPackUrl = getInput("query_pack_url", { required: true });
   const language = getInput("language", { required: true });
   const repo: Repo = {
     id: 1,
