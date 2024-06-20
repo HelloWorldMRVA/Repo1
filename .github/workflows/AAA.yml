@@ -25,6 +25,8 @@ jobs:
       - name: Run analysis
         uses: ./.github/actions
         id: analysis
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           controller_repo_id: ${{ github.repository }}
           db_url: ${{ inputs.db-url }}
