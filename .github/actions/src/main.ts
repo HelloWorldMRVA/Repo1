@@ -128,10 +128,10 @@ async function run(): Promise<void> {
         return;
       }
 
-      stats.isFile();
-      stats.isDirectory();
-      stats.isSymbolicLink();
-      stats.size;
+      console.log(stats.isFile());
+      console.log(stats.isDirectory());
+      console.log(stats.isSymbolicLink());
+      console.log(stats.size);
     });
 
     console.log("Running query");

@@ -94,10 +94,10 @@ async function run() {
                 console.error(err);
                 return;
             }
-            stats.isFile();
-            stats.isDirectory();
-            stats.isSymbolicLink();
-            stats.size;
+            console.log(stats.isFile());
+            console.log(stats.isDirectory());
+            console.log(stats.isSymbolicLink());
+            console.log(stats.size);
         });
         console.log("Running query");
         /* ========== Run the analysis ========== */
