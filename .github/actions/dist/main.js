@@ -110,7 +110,7 @@ async function run() {
                     throw err;
                 console.log(`Results saved as ${pathToSave}.`);
             });
-            (0, core_1.setOutput)("results-path", runQueryResult);
+            (0, core_1.setOutput)("results-path", pathToSave);
         }
         // await setVariantAnalysisRepoSucceeded(
         //   controllerRepoId,

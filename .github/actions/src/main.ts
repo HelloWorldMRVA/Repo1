@@ -12,11 +12,6 @@ import { getQueryPackInfo, runQuery, RunQueryResult } from "./codeql";
 import { CodeqlCliServer } from "./codeql-cli";
 import { setupCodeQLBundle } from "./codeql-setup";
 import { download } from "./download";
-import {
-  setVariantAnalysisFailed,
-  setVariantAnalysisRepoInProgress,
-  setVariantAnalysisRepoSucceeded,
-} from "./gh-api-client";
 
 const shutdownHandlers: Array<() => void> = [];
 
@@ -150,7 +145,7 @@ async function run(): Promise<void> {
         if (err) throw err;
         console.log(`Results saved as ${pathToSave}.`);
       });
-      setOutput("results-path", runQueryResult);
+      setOutput("results-path", pathToSave);
     }
 
     // await setVariantAnalysisRepoSucceeded(
