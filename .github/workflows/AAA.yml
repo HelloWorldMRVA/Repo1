@@ -1,0 +1,27 @@
+name: Run Agent as Action
+run-name: ${{ format('Running on {0}-{1}', github.repository, inputs.timestamp) }}
+on:
+  workflow_dispatch:
+    inputs:
+      db-url:
+        description: URL of the database .zip archive
+        type: string
+        required: true
+      qlpack-url:
+        description: URL of the qlpack .tar.gz archive
+        type: string
+        required: true
+      timestamp:
+        description: Timestamp to uniquely identify different workflow runs
+        type: string
+jobs:
+  run-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Upload artifact for download
+        uses: actions/upload-artifact@v4
+        with:
+          path: results/results.zip
+          if-no-files-found: error
