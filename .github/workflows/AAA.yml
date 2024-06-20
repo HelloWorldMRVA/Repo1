@@ -21,7 +21,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Run analysis
-        uses: ../actions/action.yml
+        uses: ./.github/actions/action.yml
         id: analysis
         with:
           controller_repo_id: ${{ github.repository }}
