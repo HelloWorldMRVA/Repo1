@@ -20,8 +20,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Run analysis
+        uses: ../actions/action.yml
+        id: analysis
+        with:
+          controller_repo_id: ${{ github.repository }}
+          db_url: ${{ input.db-url }}
+          query_pack_url: ${{ qlpack-url }}
+          language: cpp
+          variant_analysis_id: ${{ input.timestamp }}
       - name: Upload artifact for download
         uses: actions/upload-artifact@v4
         with:
-          path: results/results.zip
+          path: ${{ steps.analysis.outputs.results-path }}
           if-no-files-found: error
