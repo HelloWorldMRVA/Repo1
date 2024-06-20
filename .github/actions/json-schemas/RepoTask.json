@@ -1,0 +1,25 @@
+{
+  "$ref": "#/definitions/RepoTask",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "RepoTask": {
+      "properties": {
+        "analysis_status": {
+          "enum": [
+            "pending",
+            "in_progress",
+            "succeeded",
+            "failed",
+            "canceled",
+            "timed_out"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "analysis_status"
+      ],
+      "type": "object"
+    }
+  }
+}
